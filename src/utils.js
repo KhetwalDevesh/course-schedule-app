@@ -12,9 +12,13 @@ export const getNumberOfDatesAvailableInCurrentMonth = (
 };
 
 export const getNumbersOfDaysToBeSkipped = (currentDate) => {
-	const startingDay = startOfMonth(currentDate).getDay();
-
+	let startingDay = startOfMonth(currentDate).getDay();
+	// console.log("startingDay", JSON.stringify(startingDay, null, 2));
+	if (startingDay === 0) {
+		startingDay = 7;
+	}
 	const numbersOfDays = [...Array(startingDay - 1).fill(uuid())];
+	// console.log("numberOfDays", JSON.stringify(numbersOfDays, null, 2));
 	return numbersOfDays;
 };
 
@@ -29,34 +33,25 @@ export const getNumberOfDaysInCurrentMonth = (currentDate) => {
 
 export const onNext = ({ _currentDate }) => {
 	let newDate = new Date(_currentDate);
-	let nextMonth = null;
-	if (newDate.getMonth() === 11) {
-		nextMonth = 0;
-	} else {
-		nextMonth = newDate.getMonth() + 1;
+	function getFirstDateOfNextMonth(date) {
+		const year = date.getFullYear();
+		const month = date.getMonth();
+		const firstDayOfNextMonth = new Date(year, month + 1, 1);
+		return firstDayOfNextMonth;
 	}
-	let nextYear = newDate.getFullYear();
-	if (nextMonth === 0) {
-		nextYear = nextYear + 1;
-	}
-	newDate.setMonth(nextMonth);
-	newDate.setFullYear(nextYear);
-	return newDate;
+	const firstDateOfNextMonth = getFirstDateOfNextMonth(newDate);
+	console.log(firstDateOfNextMonth);
+	return firstDateOfNextMonth;
 };
 
 export const onPrev = ({ _currentDate }) => {
 	let newDate = new Date(_currentDate);
-	let prevMonth = null;
-	if (newDate.getMonth() === 0) {
-		prevMonth = 11;
-	} else {
-		prevMonth = newDate.getMonth() - 1;
+	function getFirstDateOfPreviousMonth(date) {
+		const year = date.getFullYear();
+		const month = date.getMonth();
+		const firstDayOfPreviousMonth = new Date(year, month - 1, 1);
+		return firstDayOfPreviousMonth;
 	}
-	let prevYear = newDate.getFullYear();
-	if (prevMonth === 11) {
-		prevYear = prevYear - 1;
-	}
-	newDate.setMonth(prevMonth);
-	newDate.setFullYear(prevYear);
-	return newDate;
+	const firstDateOfPreviousMonth = getFirstDateOfPreviousMonth(newDate);
+	return firstDateOfPreviousMonth;
 };
