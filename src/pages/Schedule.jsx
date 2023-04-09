@@ -38,6 +38,9 @@ const Schedule = () => {
 	// console.log("courseEnrolledOn", JSON.stringify(courseEnrolledOn, null, 2));
 	const getScheduleForCurrentMonth = async () => {
 		try {
+			if (courseEnrolledOn === undefined) {
+				return;
+			}
 			setLoading(true);
 			const response = await axios({
 				method: "get",
