@@ -35,13 +35,13 @@ const Schedule = () => {
 	);
 	const numberOfDaysToSkip = getNumbersOfDaysToBeSkipped(currentDate);
 	const courseEnrolledOn = location.state.course;
-
+	// console.log("courseEnrolledOn", JSON.stringify(courseEnrolledOn, null, 2));
 	const getScheduleForCurrentMonth = async () => {
 		try {
 			setLoading(true);
 			const response = await axios({
 				method: "get",
-				url: `${baseURL}/enroll/?course=java`,
+				url: `${baseURL}/enroll/?course=${courseEnrolledOn}`,
 			});
 			setAllTasksPerSchedule(response.data);
 			setLoading(false);
