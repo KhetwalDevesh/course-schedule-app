@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-export const baseURL = "http://localhost:8000";
+export const baseURL = "https://course-schedule-app-backend.onrender.com";
 function Home() {
 	const [courses, setCourses] = useState([
 		{
