@@ -45,7 +45,9 @@ const Schedule = () => {
 			});
 			setAllTasksPerSchedule(response.data);
 			setLoading(false);
-		} catch (error) {}
+		} catch (error) {
+			setLoading(false);
+		}
 	};
 
 	useEffect(() => {
