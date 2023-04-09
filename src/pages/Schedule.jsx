@@ -16,6 +16,7 @@ import CalendarActionsHeader from "../components/CalendarActionsHeader";
 
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
+import clsx from "clsx";
 
 const Schedule = () => {
 	const location = useLocation();
@@ -23,6 +24,7 @@ const Schedule = () => {
 	const [tasksToRenderInModal, setTasksToRenderInModal] = useState();
 	const [isOpen, setIsOpen] = useState();
 	const [allTasksPerSchedule, setAllTasksPerSchedule] = useState({});
+	const [loading, setLoading] = useState(false);
 	let monthToDisplay = format(currentDate, "LLLL");
 	let yearToDisplay = format(currentDate, "yyyy");
 	let currentMonth = currentDate.getMonth() + 1;
@@ -36,11 +38,13 @@ const Schedule = () => {
 
 	const getScheduleForCurrentMonth = async () => {
 		try {
+			setLoading(true);
 			const response = await axios({
 				method: "get",
 				url: `${baseURL}/enroll/?course=java`,
 			});
 			setAllTasksPerSchedule(response.data);
+			setLoading(false);
 		} catch (error) {}
 	};
 
@@ -87,7 +91,9 @@ const Schedule = () => {
 							}}
 							key={date + index}
 							height={80}
-							className="h-32 m-2 bg-blue-100 p-2 cursor-pointer">
+							className={clsx("h-32 m-2 bg-blue-100 p-2 cursor-pointer", {
+								"animate-pulse": loading,
+							})}>
 							<span>{date}</span>
 							<div className="absolute">
 								{tasksForCurrentDate &&
